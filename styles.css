@@ -152,11 +152,24 @@ h3 {
     text-align: center;
     position: relative;
     z-index: 2;
-    transition: transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-in, transform 1s ease-in;
+}
+
+/* Placeholders (roots with no parents) are visible by default */
+.member-card.placeholder {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.member-card.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .member-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) translateY(0);
     z-index: 10;
 }
 

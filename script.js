@@ -1,7 +1,8 @@
 class Branch {
-    constructor(start, end) {
+    constructor(start, end, targetElement = null) {
         this.start = start;
         this.end = end;
+        this.targetElement = targetElement;
         this.points = [];
         this.generate();
     }
@@ -45,14 +46,11 @@ class Branch {
     draw(ctx, scrollY, windowHeight) {
         if (this.points.length < 2) return;
 
-        // Determine if visible
-        // We draw the whole path if the TOP of it is somewhat visible or we passed it
-        // To animate "growing", we check the Y position of points relative to scroll
-
         ctx.beginPath();
         ctx.moveTo(this.points[0].x, this.points[0].y);
 
         let drawn = false;
+        let reachedEnd = false;
 
         // Draw threshold: bottom of screen + buffer
         const threshold = scrollY + windowHeight + 100;
@@ -61,21 +59,28 @@ class Branch {
             const p = this.points[i];
 
             if (p.y < threshold) {
-                // Variation in line width based on t
-                // We'll draw simple line for now, maybe complex later
                 ctx.lineTo(p.x, p.y);
                 drawn = true;
+
+                // Check if we've reached the end point
+                if (i === this.points.length - 1) {
+                    reachedEnd = true;
+                }
             } else {
-                break; // Stop drawing if below screen
+                break;
             }
         }
 
         if (drawn) {
-            // Style
             ctx.shadowBlur = 5;
-            ctx.shadowColor = '#8b7355'; // Gold glow
+            ctx.shadowColor = '#8b7355';
             ctx.stroke();
-            ctx.shadowBlur = 0; // Reset
+            ctx.shadowBlur = 0;
+        }
+
+        // Reveal target element when branch reaches it
+        if (reachedEnd && this.targetElement) {
+            this.targetElement.classList.add('visible');
         }
     }
 }
@@ -148,7 +153,7 @@ const TreeApp = {
                     const cardRect = this.getRect(card);
                     const end = { x: cardRect.x, y: cardRect.y };
 
-                    this.branches.push(new Branch({ x: startX, y: startY }, end));
+                    this.branches.push(new Branch({ x: startX, y: startY }, end, card));
                 }
             }
 
