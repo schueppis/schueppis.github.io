@@ -17,18 +17,8 @@
     <div class="stars"></div>
     <div class="twinkling"></div>
 
-    <!-- SVG Layer for Connections -->
-    <svg id="tree-connections" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <filter id="glow">
-                <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-                <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                </feMerge>
-            </filter>
-        </defs>
-    </svg>
+    <!-- Living Tree Canvas -->
+    <canvas id="tree-canvas"></canvas>
 
     <header class="hero-section">
         <h1 class="title">The Schüpbach Legacy</h1>

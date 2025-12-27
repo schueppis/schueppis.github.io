@@ -1,13 +1,9 @@
 :root {
-    --bg-color: #050510;
-    --card-bg: rgba(20, 20, 40, 0.6);
-    --text-primary: #e0e0e0;
-    --text-accent: #b19cd9;
-    /* Light purple */
-    --glow-color: #9370db;
-    /* Medium purple */
-    --gold-accent: #d4af37;
-    --line-color: rgba(147, 112, 219, 0.5);
+    --bg-color: #0e1a12;
+    --text-primary: #e0d8c0;
+    --text-accent: #c5a059;
+    --gold-accent: #8b7355;
+    --card-bg: transparent;
 }
 
 * {
@@ -18,43 +14,32 @@
 
 body {
     background-color: var(--bg-color);
+    background-image:
+        radial-gradient(circle at center, transparent 0%, #000000 100%),
+        linear-gradient(#1a221a 1px, transparent 1px),
+        linear-gradient(90deg, #1a221a 1px, transparent 1px);
+    background-size: 100% 100%, 20px 20px, 20px 20px;
+    background-attachment: fixed;
     color: var(--text-primary);
     font-family: 'Cormorant Garamond', serif;
     overflow-x: hidden;
     min-height: 100vh;
 }
 
-/* --- Mystical Background --- */
+/* Remove old stars */
 .stars,
 .twinkling {
-    position: fixed;
+    display: none;
+}
+
+#tree-canvas {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-}
-
-.stars {
-    background: #000 url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
-    z-index: -2;
-}
-
-.twinkling {
-    background: transparent url('http://www.script-tutorials.com/demos/360/images/twinkling.png') repeat top center;
     z-index: -1;
-    animation: move-twinkling 200s linear infinite;
-    opacity: 0.5;
-}
-
-@keyframes move-twinkling {
-    from {
-        background-position: 0 0;
-    }
-
-    to {
-        background-position: -10000px 5000px;
-    }
+    pointer-events: none;
 }
 
 /* --- Typography --- */
@@ -62,7 +47,7 @@ h1,
 h2,
 h3 {
     font-family: 'Cinzel', serif;
-    color: var(--gold-accent);
+    color: var(--text-accent);
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -76,20 +61,19 @@ h3 {
     align-items: center;
     text-align: center;
     position: relative;
-    opacity: 0;
-    animation: fadeIn 2s ease-out forwards;
+    z-index: 1;
 }
 
 .title {
     font-size: 4rem;
-    text-shadow: 0 0 10px var(--glow-color);
+    text-shadow: 0 0 10px #000;
     margin-bottom: 1rem;
 }
 
 .subtitle {
     font-size: 1.5rem;
     font-style: italic;
-    color: var(--text-accent);
+    color: var(--gold-accent);
 }
 
 .scroll-indicator {
@@ -116,34 +100,15 @@ h3 {
     padding: 0 2rem;
     position: relative;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1600px;
+    /* Wider for full tree */
     margin: 0 auto;
-}
-
-/* --- SVG Layer --- */
-#tree-connections {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-    overflow: visible;
-}
-
-path {
-    fill: none;
-    stroke: var(--line-color);
-    stroke-width: 2px;
-    filter: url(#glow);
-    transition: stroke-dashoffset 1s ease-out;
 }
 
 /* --- Generation Section --- */
 .generation {
-    margin-bottom: 200px;
-    /* Space for lines */
+    margin-bottom: 250px;
+    /* More space for gnarly branches */
     text-align: center;
     position: relative;
     z-index: 1;
@@ -152,14 +117,14 @@ path {
 .generation-title {
     font-size: 2rem;
     margin-bottom: 3rem;
-    color: var(--text-accent);
-    opacity: 0.8;
+    color: var(--gold-accent);
+    text-shadow: 0 2px 4px #000;
 }
 
 .group-container {
     display: flex;
     justify-content: center;
-    gap: 4rem;
+    gap: 6rem;
     flex-wrap: wrap;
 }
 
@@ -181,37 +146,17 @@ path {
 /* --- Member Card --- */
 .member-card {
     background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
+    /* Transparent */
     padding: 1rem;
-    width: 220px;
+    width: 200px;
     text-align: center;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
     position: relative;
     z-index: 2;
-}
-
-.member-card.main-line {
-    border-color: var(--text-accent);
-    transform: scale(1.1);
-}
-
-.member-card.deceased {
-    filter: grayscale(0.8);
-    opacity: 0.8;
-}
-
-.member-card.deceased .portrait {
-    border-color: #666;
-    box-shadow: none;
+    transition: transform 0.3s ease;
 }
 
 .member-card:hover {
-    transform: translateY(-10px) scale(1.1);
-    box-shadow: 0 15px 40px rgba(147, 112, 219, 0.3);
-    border-color: var(--text-accent);
+    transform: scale(1.05);
     z-index: 10;
 }
 
@@ -219,45 +164,42 @@ path {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background: #1a1a2e;
+    background: #000;
     margin: 0 auto 1rem;
-    border: 2px solid var(--text-accent);
+    border: 3px solid var(--gold-accent);
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     position: relative;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
 }
 
-.portrait img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.member-card.main-line .portrait {
+    width: 130px;
+    height: 130px;
+    border-color: var(--text-accent);
 }
 
-.portrait span {
-    font-size: 2rem;
-    color: var(--text-primary);
+.member-card.deceased {
+    filter: sepia(0.5) grayscale(0.5);
+    opacity: 0.9;
 }
 
-/* Placeholder specific styling */
-.member-card.placeholder {
-    opacity: 0.6;
-}
-
-.member-card.placeholder:hover {
-    opacity: 1;
+.member-card.deceased .portrait {
+    border-color: #554a3a;
 }
 
 .info h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin-bottom: 0.5rem;
     color: var(--text-primary);
+    text-shadow: 0 2px 4px #000;
 }
 
 .dates {
-    font-size: 1rem;
-    color: #aaa;
+    font-size: 0.9rem;
+    color: #999;
     font-style: italic;
 }
 
@@ -267,14 +209,8 @@ footer {
     text-align: center;
     color: #666;
     margin-top: 4rem;
-    font-size: 0.9rem;
-}
-
-/* --- Animations --- */
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
+    position: relative;
+    z-index: 1;
 }
 
 @keyframes bounce {
@@ -298,16 +234,11 @@ footer {
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
-    .title {
-        font-size: 2.5rem;
-    }
-
-    .branch {
-        gap: 2rem;
+    .group-container {
+        gap: 3rem;
     }
 
     .member-card {
-        width: 100%;
-        max-width: 300px;
+        width: 150px;
     }
 }
