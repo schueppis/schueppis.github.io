@@ -2,8 +2,10 @@
     --bg-color: #050510;
     --card-bg: rgba(20, 20, 40, 0.6);
     --text-primary: #e0e0e0;
-    --text-accent: #b19cd9; /* Light purple */
-    --glow-color: #9370db; /* Medium purple */
+    --text-accent: #b19cd9;
+    /* Light purple */
+    --glow-color: #9370db;
+    /* Medium purple */
     --gold-accent: #d4af37;
     --line-color: rgba(147, 112, 219, 0.5);
 }
@@ -23,7 +25,8 @@ body {
 }
 
 /* --- Mystical Background --- */
-.stars, .twinkling {
+.stars,
+.twinkling {
     position: fixed;
     top: 0;
     left: 0;
@@ -45,12 +48,19 @@ body {
 }
 
 @keyframes move-twinkling {
-    from {background-position: 0 0;}
-    to {background-position: -10000px 5000px;}
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -10000px 5000px;
+    }
 }
 
 /* --- Typography --- */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     font-family: 'Cinzel', serif;
     color: var(--gold-accent);
     text-transform: uppercase;
@@ -103,67 +113,69 @@ h1, h2, h3 {
 
 /* --- Tree Container --- */
 .tree-container {
-    padding: 4rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 0 2rem;
     position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-/* --- Connecting Lines --- */
-.connector-line {
-    width: 2px;
-    height: 100px; /* Gap between generations */
-    background: linear-gradient(to bottom, var(--line-color), transparent);
-    position: relative;
-}
-
-.connector-line::after {
-    content: '';
+/* --- SVG Layer --- */
+#tree-connections {
     position: absolute;
     top: 0;
-    left: -1px; /* Center it */
-    width: 2px;
-    height: 0%;
-    background: var(--gold-accent);
-    box-shadow: 0 0 10px var(--gold-accent);
-    transition: height 1.5s ease-out;
-}
-
-.connector-line.visible::after {
+    left: 0;
+    width: 100%;
     height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: visible;
 }
 
+path {
+    fill: none;
+    stroke: var(--line-color);
+    stroke-width: 2px;
+    filter: url(#glow);
+    transition: stroke-dashoffset 1s ease-out;
+}
 
 /* --- Generation Section --- */
 .generation {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 1s ease-out, transform 1s ease-out;
-}
-
-.generation.visible {
-    opacity: 1;
-    transform: translateY(0);
+    margin-bottom: 200px;
+    /* Space for lines */
+    text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .generation-title {
     font-size: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     color: var(--text-accent);
     opacity: 0.8;
 }
 
-.branch {
+.group-container {
     display: flex;
+    justify-content: center;
     gap: 4rem;
     flex-wrap: wrap;
+}
+
+/* --- Family Groups --- */
+.family-group,
+.family-branch {
+    display: flex;
+    gap: 2rem;
     justify-content: center;
     position: relative;
+}
+
+.siblings-group {
+    display: flex;
+    gap: 2rem;
+    margin-left: 2rem;
 }
 
 /* --- Member Card --- */
@@ -171,40 +183,41 @@ h1, h2, h3 {
     background: var(--card-bg);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    padding: 1.5rem;
-    width: 280px;
+    padding: 1rem;
+    width: 220px;
     text-align: center;
     backdrop-filter: blur(10px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
     position: relative;
-    overflow: hidden;
+    z-index: 2;
+}
+
+.member-card.main-line {
+    border-color: var(--text-accent);
+    transform: scale(1.1);
+}
+
+.member-card.deceased {
+    filter: grayscale(0.8);
+    opacity: 0.8;
+}
+
+.member-card.deceased .portrait {
+    border-color: #666;
+    box-shadow: none;
 }
 
 .member-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(1.1);
     box-shadow: 0 15px 40px rgba(147, 112, 219, 0.3);
     border-color: var(--text-accent);
-}
-
-.member-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s;
-}
-
-.member-card:hover::before {
-    left: 100%;
+    z-index: 10;
 }
 
 .portrait {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     background: #1a1a2e;
     margin: 0 auto 1rem;
@@ -212,16 +225,26 @@ h1, h2, h3 {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.portrait span {
     font-size: 2rem;
     color: var(--text-primary);
-    box-shadow: 0 0 15px rgba(147, 112, 219, 0.3);
-    overflow: hidden; /* Ensure image fits */
 }
 
 /* Placeholder specific styling */
 .member-card.placeholder {
     opacity: 0.6;
 }
+
 .member-card.placeholder:hover {
     opacity: 1;
 }
@@ -249,13 +272,28 @@ footer {
 
 /* --- Animations --- */
 @keyframes fadeIn {
-    to { opacity: 1; }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-10px);}
-    60% {transform: translateY(-5px);}
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
 }
 
 /* --- Responsive --- */
@@ -263,9 +301,11 @@ footer {
     .title {
         font-size: 2.5rem;
     }
+
     .branch {
         gap: 2rem;
     }
+
     .member-card {
         width: 100%;
         max-width: 300px;

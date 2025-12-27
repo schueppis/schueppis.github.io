@@ -17,96 +17,169 @@
     <div class="stars"></div>
     <div class="twinkling"></div>
 
+    <!-- SVG Layer for Connections -->
+    <svg id="tree-connections" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="glow">
+                <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+    </svg>
+
     <header class="hero-section">
         <h1 class="title">The Schüpbach Legacy</h1>
         <p class="subtitle">A lineage of mystery and magic</p>
         <div class="scroll-indicator">
-            <span>Explore</span>
+            <span>Scroll to Reveal</span>
             <div class="arrow"></div>
         </div>
     </header>
 
     <main class="tree-container">
-        <!-- Ancestors Section (Placeholders) -->
-        <section class="generation" id="ancestors">
-            <h2 class="generation-title">The Ancients</h2>
-            <div class="branch">
-                <div class="member-card placeholder">
-                    <div class="portrait"></div>
-                    <div class="info">
-                        <h3>Grandfather</h3>
-                        <p class="dates">Unknown - Unknown</p>
+
+        <!-- GENERATION 1: GRANDPARENTS -->
+        <section class="generation" id="gen-1">
+            <h2 class="generation-title">The Roots</h2>
+            <div class="group-container">
+                <!-- Adrian's Parents -->
+                <div class="family-group left-group">
+                    <div class="member-card placeholder" id="gp-p-adrian-1" data-partner="gp-p-adrian-2">
+                        <div class="portrait"></div>
+                        <div class="info">
+                            <h3>Grandfather S.</h3>
+                        </div>
+                    </div>
+                    <div class="member-card placeholder" id="gp-p-adrian-2" data-partner="gp-p-adrian-1">
+                        <div class="portrait"></div>
+                        <div class="info">
+                            <h3>Grandmother S.</h3>
+                        </div>
                     </div>
                 </div>
-                <div class="member-card placeholder">
-                    <div class="portrait"></div>
-                    <div class="info">
-                        <h3>Grandmother</h3>
-                        <p class="dates">Unknown - Unknown</p>
+
+                <!-- Claudia's Parents -->
+                <div class="family-group right-group">
+                    <div class="member-card placeholder" id="gp-p-claudia-1" data-partner="gp-p-claudia-2">
+                        <div class="portrait"></div>
+                        <div class="info">
+                            <h3>Grandfather M.</h3>
+                        </div>
+                    </div>
+                    <div class="member-card placeholder" id="gp-p-claudia-2" data-partner="gp-p-claudia-1">
+                        <div class="portrait"></div>
+                        <div class="info">
+                            <h3>Grandmother M.</h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Connecting Line -->
-        <div class="connector-line"></div>
+        <!-- GENERATION 2: PARENTS & SIBLINGS -->
+        <section class="generation" id="gen-2">
+            <h2 class="generation-title">The Branches</h2>
+            <div class="group-container">
 
-        <!-- Parents Section -->
-        <section class="generation" id="parents">
-            <h2 class="generation-title">The Keepers</h2>
-            <div class="branch">
-                <div class="member-card">
-                    <div class="portrait" id="p-adrian">
-                        <!-- User will add image here -->
-                        <span class="initials">AS</span>
+                <!-- Adrian's Side -->
+                <div class="family-branch">
+                    <!-- Barbara (Sister) -->
+                    <div class="member-card deceased" id="barbara" data-parents="gp-p-adrian-1,gp-p-adrian-2">
+                        <div class="portrait"><span>B</span></div>
+                        <div class="info">
+                            <h3>Barbara</h3>
+                            <p class="dates">Deceased</p>
+                        </div>
                     </div>
-                    <div class="info">
-                        <h3>Adrian Schüpbach</h3>
-                        <p class="dates">Born 27.10.1964</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="portrait" id="p-claudia">
-                        <!-- User will add image here -->
-                        <span class="initials">CS</span>
-                    </div>
-                    <div class="info">
-                        <h3>Claudia Schüpbach</h3>
-                        <p class="dates">Born 27.08.1965</p>
+
+                    <!-- Adrian -->
+                    <div class="member-card main-line" id="adrian" data-parents="gp-p-adrian-1,gp-p-adrian-2"
+                        data-partner="claudia">
+                        <div class="portrait"><img src="images/adrian.jpg" alt="Adrian"></div>
+                        <div class="info">
+                            <h3>Adrian Schüpbach</h3>
+                            <p class="dates">27.10.1964</p>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Claudia's Side -->
+                <div class="family-branch">
+                    <!-- Claudia -->
+                    <div class="member-card main-line" id="claudia" data-parents="gp-p-claudia-1,gp-p-claudia-2"
+                        data-partner="adrian">
+                        <div class="portrait"><img src="images/claudia.jpg" alt="Claudia"></div>
+                        <div class="info">
+                            <h3>Claudia Schüpbach</h3>
+                            <p class="dates">27.08.1965</p>
+                        </div>
+                    </div>
+
+                    <!-- Claudia's Sisters -->
+                    <div class="siblings-group">
+                        <div class="member-card" id="corinna" data-parents="gp-p-claudia-1,gp-p-claudia-2">
+                            <div class="portrait"><span>C</span></div>
+                            <div class="info">
+                                <h3>Corinna</h3>
+                            </div>
+                        </div>
+                        <div class="member-card" id="cristina" data-parents="gp-p-claudia-1,gp-p-claudia-2">
+                            <div class="portrait"><span>Cr</span></div>
+                            <div class="info">
+                                <h3>Cristina</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- Connecting Line -->
-        <div class="connector-line"></div>
+        <!-- GENERATION 3: CHILDREN -->
+        <section class="generation" id="gen-3">
+            <h2 class="generation-title">The Fruits</h2>
+            <div class="group-container">
 
-        <!-- Children Section -->
-        <section class="generation" id="children">
-            <h2 class="generation-title">The New Blood</h2>
-            <div class="branch">
-                <div class="member-card">
-                    <div class="portrait" id="c-sven">
-                        <!-- User will add image here -->
-                        <span class="initials">SS</span>
+                <!-- Barbara's Kids -->
+                <div class="family-branch" style="margin-right: 2rem;">
+                    <div class="member-card placeholder" id="barb-child-1" data-parents="barbara">
+                        <div class="portrait"></div>
+                        <div class="info">
+                            <h3>Child 1</h3>
+                        </div>
                     </div>
-                    <div class="info">
-                        <h3>Sven Schüpbach</h3>
-                        <p class="dates">Born 04.02.1993</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="portrait" id="c-nick">
-                        <!-- User will add image here -->
-                        <span class="initials">NS</span>
-                    </div>
-                    <div class="info">
-                        <h3>Nick Schüpbach</h3>
-                        <p class="dates">Born 15.03.1995</p>
+                    <div class="member-card placeholder" id="barb-child-2" data-parents="barbara">
+                        <div class="portrait"></div>
+                        <div class="info">
+                            <h3>Child 2</h3>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Sven & Nick -->
+                <div class="family-branch main-children">
+                    <div class="member-card" id="sven" data-parents="adrian,claudia">
+                        <div class="portrait"><img src="images/sven.jpg" alt="Sven"></div>
+                        <div class="info">
+                            <h3>Sven Schüpbach</h3>
+                            <p class="dates">04.02.1993</p>
+                        </div>
+                    </div>
+                    <div class="member-card" id="nick" data-parents="adrian,claudia">
+                        <div class="portrait"><img src="images/nick.jpg" alt="Nick"></div>
+                        <div class="info">
+                            <h3>Nick Schüpbach</h3>
+                            <p class="dates">15.03.1995</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
+
     </main>
 
     <footer>
